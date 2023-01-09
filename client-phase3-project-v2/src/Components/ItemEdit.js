@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
 
 
-const ItemEdit = ({clickedItems, setClickedItems, item, setEditMode, deleteItem}) => {
+const ItemEdit = ({clickedItems, setClickedItems, item, setEditMode, deleteItem, editedItem}) => {
     const [editItem, setEditItem] = useState(item)
 
     function saveEdit(){
+
+   
 
         fetch(`http://localhost:3000/items/${editItem.id}`, {
 
@@ -24,7 +26,9 @@ const ItemEdit = ({clickedItems, setClickedItems, item, setEditMode, deleteItem}
 
         })
         .then((r) => r.json())
-        .then((update) => updatePatch(update))
+        .then((update) => {
+          editedItem(update)
+          updatePatch(update)})
 
     }
 
@@ -34,17 +38,19 @@ const ItemEdit = ({clickedItems, setClickedItems, item, setEditMode, deleteItem}
 
     }
 
-    function updatePatch(update){
+    function updatePatch(updatedItem){
 
-   let itemFilter = clickedItems.filter((item) => item.id !== update.id)
+   let itemFilter = clickedItems.filter((filt) => filt.id !== updatedItem.id)
 
-   setClickedItems([...itemFilter, update])
+   setClickedItems([...itemFilter, updatedItem])
 
     }
 
     function fetchDelete(){
       fetch(`http://localhost:3000/items/${editItem.id}`,{
       method: "DELETE",})
+      .then((r) => r.json())
+      .then((data) => deleteItem(data))
     }
 
     return(
@@ -60,7 +66,7 @@ const ItemEdit = ({clickedItems, setClickedItems, item, setEditMode, deleteItem}
             <div className={"editButtons"} >
             <button type="submit">SAVE</button>
             <button onClick={() => setEditMode(false)}>CANCEL</button>
-            <button onClick={() => {setEditMode(false); fetchDelete(); deleteItem(editItem.id)}}>DELETE</button>
+            <button onClick={() => {setEditMode(false); fetchDelete();}}>DELETE</button>
             </div>
             
             </form>

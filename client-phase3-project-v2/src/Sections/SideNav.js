@@ -2,13 +2,15 @@ import React from "react"
 import Designer from "../Components/Designer"
 import ItemAdd from "../Components/ItemAdd"
 
-const Designers = ({designers, setClicked, clickedItems, setClickedItems,
-    designerResponse, setDesignerResponse, currentDesigner, setCurrentDesigner,
+const SideNav = ({designers, setClicked, clickedItems, setClickedItems,
+    designerResponse, setDesignerResponse, currentDesigner, setCurrentDesigner, addDesignerItem
     }) => {
+
+        console.log("designers in SideNav:", designers)
 
 
     let designerNames = designers.map((designer) =>
-    { return  (<Designer setClicked={setClicked} id={designer.id} name={designer.name} key={designer.id} />)
+    { return  (<Designer currentDesigner={currentDesigner} setClicked={setClicked} id={designer.id} name={designer.name} key={designer.id} />)
     }
     )
 
@@ -24,7 +26,7 @@ const Designers = ({designers, setClicked, clickedItems, setClickedItems,
 
       <div>
 
-      <ItemAdd clickedItems={clickedItems} setClickedItems={setClickedItems} 
+      <ItemAdd addDesignerItem={addDesignerItem} clickedItems={clickedItems} setClickedItems={setClickedItems} 
       designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} currentDesigner={currentDesigner}
       setCurrentDesigner={setCurrentDesigner} setClicked={setClicked} />
       </div>
@@ -42,4 +44,4 @@ const Designers = ({designers, setClicked, clickedItems, setClickedItems,
 
 }
 
-export default Designers
+export default SideNav

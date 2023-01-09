@@ -2,20 +2,17 @@ import React from "react"
 import Item from "./Item"
 
 
-const ItemList = ({clickedItems, setClickedItems, deleteItem}) =>{
+const ItemList = ({clickedItems, setClickedItems, deleteItem, editedItem}) =>{
 
-    // console.log("clicked items in ItemList", clickedItems[0].name)
-
- 
-    
-    let clickMap = clickedItems.map((item) => 
+    let clickMap = clickedItems?.map((item) => 
 
         ( <Item key={item.id} 
          item={item} 
          stock={item.stock_quantity}
          deleteItem={deleteItem} 
          clickedItems={clickedItems} 
-         setClickedItems={setClickedItems}/> )
+         setClickedItems={setClickedItems}
+         editedItem={editedItem}/> )
      )
     
 

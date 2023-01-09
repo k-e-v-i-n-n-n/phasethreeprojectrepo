@@ -1,9 +1,10 @@
 import React, { useEffect, useState} from 'react'
-import { HashRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 
-import Designers from './Sections/Designers';
-import Nav from './Components/Nav';
+import SideNav from './Sections/SideNav';
+import Header from './Sections/Header';
 import ItemList from './Components/ItemList';
+import Home from './Sections/Home';
 
 
 function App() {
@@ -13,56 +14,87 @@ function App() {
   const [clickedItems, setClickedItems] = useState([])    
   const [designerResponse, setDesignerResponse] = useState({id:"", name: ""})
 
+  const { desId } = useParams()
 
   useEffect (() => {fetch("http://localhost:3000/designers")
     .then((res) => res.json())
-    .then((des) => setDesigners(des))},[designerResponse]
+    .then((des) => setDesigners(des))},[]
   )
 
 function setClicked (e){
-
-  setCurrentDesigner({id: e.target.id, name: e.target.innerHTML})
-
   let id = e.target.id
+  
+  const designerFind = designers.find(des => des.id == id)
 
-  // retrieveItems(id)
+  setCurrentDesigner({id: id, name: e.target.innerHTML})
+  setClickedItems(designerFind.items)
+}
 
-  fetch(`http://localhost:3000/items/${id}`)
-      .then((r) => r.json())
-      .catch((err) => console.log("error:", err))
-      .then((res)=> setClickedItems(res))
+
+// FETCH Related State Updates*******************
+
+function editedItem(item){
+
+  const designer = designers.find((d) => d.id == item.designer_id)
+
+  const filterItems = designer.items.filter((i) => i.id !== item.id)
+
+  const itemsUpdate = {...designer, items: [...filterItems, item] }
+
+  const itemMap = designers.map((i) => i.id == designer.id ? itemsUpdate : i)
+
+  setDesigners(itemMap)
 
 }
 
-console.log("app clicked items", clickedItems)
+function addDesignerItem(item){
 
+  const designer = designers.find((d) => d.id == item.designer_id) 
 
-function deleteItem(id){
+  const updatedDesigner = {...designer, items: [...designer.items, item] }
 
-  let updated = clickedItems.filter((item) => item.id !== id) 
-  setClickedItems(updated)
+  const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
+
+  setDesigners(updateDesigners)
+
+}
+
+function deleteItem(item){
+
+  const designer = designers.find((d) => d.id == item.designer_id) 
+
+  const updatedItems = designer.items.filter((i) => i.id !== item.id )
+
+  const updatedDesigner = {...designer, items: updatedItems }
+
+  const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
+
+  setDesigners(updateDesigners)
+
+  setClickedItems(updatedItems)
 
 }
 
 
   return (
 
-    <HashRouter>
-    <Nav currentDesigner={currentDesigner} />
-    <Routes>
-    <Route exact path="/" element={
-    <>
-    <ItemList  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} /> 
-      <Designers designers={designers} setClicked={setClicked} 
+    
+   <BrowserRouter>
+   <Header currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
+   <SideNav addDesignerItem={addDesignerItem} designers={designers} setClicked={setClicked} 
       clickedItems={clickedItems} setClickedItems={setClickedItems} 
       designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} 
       setCurrentDesigner={setCurrentDesigner} currentDesigner={currentDesigner} /> 
-      
-    </>} />
-  
+    <Routes>
+      <Route path='/' element={<Home/>} />
+    <Route path={`designers/:desId`} element={
+    <ItemList editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
+    }/>
     </Routes>
+
+  </BrowserRouter>
     
-    </HashRouter>
+  
     
 
   );

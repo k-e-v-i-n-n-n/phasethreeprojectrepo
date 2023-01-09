@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
 
   get "/designers" do
     designers = Designer.all
-    designers.to_json
+    designers.to_json(include: :items)
   end
 
 

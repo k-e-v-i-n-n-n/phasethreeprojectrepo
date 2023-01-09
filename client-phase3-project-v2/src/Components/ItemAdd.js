@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 const ItemAdd = ({clickedItems, setClickedItems, 
     designerResponse, setDesignerResponse,
-    setCurrentDesigner, setClicked, currentDesigner}) => {
+    setCurrentDesigner, setClicked, currentDesigner, addDesignerItem}) => {
 
     // const [designerResponse, setDesignerResponse] = useState({id:"", name: ""})
     const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "" })
@@ -21,53 +21,7 @@ const ItemAdd = ({clickedItems, setClickedItems,
 function addItem(e) {
 
     e.preventDefault();
-
-    fetch(`http://localhost:3000/designers`, {
-    
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        name: designerForm
-    
-    }),
-    })
-    .then((res) => res.json())
-    .then((r) => {setDesignerResponse({id: r.id, name: r.name}); 
-                    setCurrentDesigner({id: r.id, name: r.name});})
-     
-    }
-
-
-    // function secondFetch(){
-
-    //     fetch(`http://localhost:3000/items`,{
-
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         name: itemForm.name,
-    //         color: itemForm.color,
-    //         size: itemForm.size,
-    //         price: itemForm.price,
-    //         stock_quantity: itemForm.stock_quantity,
-    //         designer_id: designerResponse.id
-        
-    //       }),
-    
-    
-    //     })
-    // .then(() => clearForm())
-    // .then(() => {setClickedItems([...clickedItems, itemForm])})
-
-
-    // }
-
-    useEffect(()=> {
-        fetch(`http://localhost:3000/items`,{
+    fetch(`http://localhost:3000/items`,{
 
     method: "POST",
     headers: {
@@ -79,16 +33,25 @@ function addItem(e) {
         size: itemForm.size,
         price: itemForm.price,
         stock_quantity: itemForm.stock_quantity,
-        designer_id: designerResponse.id
+        designer_id: currentDesigner.id
     
       }),
 
 
     })
-    .then(() => clearForm())
-    .then(() => {
-        setClickedItems([...clickedItems, itemForm])}
-)}, [designerResponse])
+    .then((r)=> r.json())
+    .then((data)=> {
+        addDesignerItem(data)
+        setClickedItems([...clickedItems, data])
+        clearForm()
+    })
+
+
+ 
+     
+    }
+
+
 
 
 function popForm(e){
@@ -112,11 +75,7 @@ setItemForm({
         <div className={"formDiv"}>
             <h3>ADD ITEM</h3>
        <form className={"form"} onSubmit={addItem}>
-       
-        <label>Designer</label>
-        <input value={designerForm} onChange={(e) => setDesignerForm(e.target.value)}></input>
-       
-        <label>Item Name</label>
+       <label>Item Name</label>
         <input name={"name"} value={itemForm.name} onChange={popForm}></input>
 
         <label>Color</label>
