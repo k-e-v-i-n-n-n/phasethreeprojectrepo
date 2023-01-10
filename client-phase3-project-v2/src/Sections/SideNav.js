@@ -6,10 +6,7 @@ const SideNav = ({designers, setClicked, clickedItems, setClickedItems,
     designerResponse, setDesignerResponse, currentDesigner, setCurrentDesigner, addDesignerItem
     }) => {
 
-        console.log("designers in SideNav:", designers)
-
-
-    let designerNames = designers.map((designer) =>
+let designerNames = designers.map((designer) =>
     { return  (<Designer currentDesigner={currentDesigner} setClicked={setClicked} id={designer.id} name={designer.name} key={designer.id} />)
     }
     )

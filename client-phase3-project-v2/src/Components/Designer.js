@@ -8,10 +8,10 @@ const style = { textDecoration:'none', color:'black' }
 
     return (
 
-    <div className={"designerName"} >
+    <div className="designerName" >
 
 <Link to={`designers/${id}`} style={style} >
-            <h3 id={id} name={name} onClick={setClicked}  className={"designer"} > 
+            <h3 id={id} name={name} onClick={setClicked} className="designer"   > 
 
 
             {name}

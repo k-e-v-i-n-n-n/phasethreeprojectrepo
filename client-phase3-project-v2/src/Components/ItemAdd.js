@@ -5,7 +5,7 @@ const ItemAdd = ({clickedItems, setClickedItems,
     setCurrentDesigner, setClicked, currentDesigner, addDesignerItem}) => {
 
     // const [designerResponse, setDesignerResponse] = useState({id:"", name: ""})
-    const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "" })
+    const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "", season:"" })
     const [designerForm, setDesignerForm] = useState("")
 
 
@@ -33,7 +33,8 @@ function addItem(e) {
         size: itemForm.size,
         price: itemForm.price,
         stock_quantity: itemForm.stock_quantity,
-        designer_id: currentDesigner.id
+        designer_id: currentDesigner.id,
+        season_id: itemForm.season_id
     
       }),
 
@@ -77,6 +78,8 @@ setItemForm({
        <form className={"form"} onSubmit={addItem}>
        <label>Item Name</label>
         <input name={"name"} value={itemForm.name} onChange={popForm}></input>
+        <label>Season</label>
+        <input name={"season"} value={itemForm.season} onChange={popForm}></input>
 
         <label>Color</label>
         <input name={"color"} value={itemForm.color} onChange={popForm} ></input>

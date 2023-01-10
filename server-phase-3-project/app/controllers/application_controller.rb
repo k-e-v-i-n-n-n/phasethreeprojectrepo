@@ -2,10 +2,7 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
 # Get routes
-  get "/customers" do
-    customers = Customer.all
-    customers.to_json
-  end
+
 
   get "/designers" do
     designers = Designer.all
@@ -23,19 +20,23 @@ class ApplicationController < Sinatra::Base
     items.to_json
   end
 
-  get "/purchases" do
-    purchases = Purchase.all
-    purchases.to_json
+  get "/seasons" do
+
+    seasons = Season.all
+    seasons.to_json(include: :items)
+
   end
+
+  get "/seasons/:id" do
+    season = Season.find(params[:id])
+    season.to_json(include: :items)
+
+  end
+
 
   #Post routes
 
-  post "/customers" do
-    customer = Customer.create(
-    name: params[:name]
-    )
-    customer.to_json
-  end
+
   
   post "/designers" do
     designer = Designer.find_or_create_by(name: params[:name])
@@ -55,22 +56,11 @@ class ApplicationController < Sinatra::Base
     item.to_json
   end
 
-  post "/purchases" do
-    purchases = Purchase.all
-    purchases.to_json
-  end
+
 
   # Patch routes
 
-  patch "/customers/:id" do
-    customer = Customer.find(params[:id])
-    customer.update(
-    name: params[:name]
-    )
-  
-    customer.to_json
-  end
-
+ 
   patch "/designers/:id" do
     designer = Designer.find(params[:id])
     designer.update(
@@ -93,24 +83,10 @@ class ApplicationController < Sinatra::Base
     item.to_json
   end
 
-  patch "/purchases/:id" do
-    purchase = Purchase.find(params[:id])
-    purchase.update(
-    item_id: params[:item_id],
-    customer_id: params[:customer_id]
-    )
-  
-    purchase.to_json
-  end
+
 
   # Delete routes
 
-  delete "/customers/:id" do
-    customer = Customer.find(params[:id])
-    customer.destroy
- 
-    customer.to_json
-  end
 
   delete "/designers/:id" do
     designer = Designer.find(params[:id])
@@ -124,12 +100,7 @@ class ApplicationController < Sinatra::Base
     item.to_json
   end
 
-  delete "/purchases/:id" do
-    purchase = Purchase.find(params[:id])
-    purchase.destroy
-  
-    purchase.to_json
-  end
+
 
 
 end

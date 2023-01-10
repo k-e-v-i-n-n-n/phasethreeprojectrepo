@@ -50,6 +50,17 @@ body {
     text-align: center;
 }
 
+.seasons {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.seasonInd:hover{
+  color: rgb(143, 143, 143); 
+}
+
 
 /* Designer Left Column Styling */
 

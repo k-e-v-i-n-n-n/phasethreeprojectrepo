@@ -9,6 +9,7 @@ class Items < ActiveRecord::Migration[6.1]
       t.string :price
       t.integer :stock_quantity
       t.integer :designer_id
+      t.integer :season_id
 
 
 

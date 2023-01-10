@@ -10,16 +10,25 @@ import Home from './Sections/Home';
 function App() {
 
   const [designers, setDesigners] = useState([])
+  const [seasons, setSeasons] = useState([])
+  const [currentSeason, setCurrentSeason] = useState([])
   const [currentDesigner, setCurrentDesigner] = useState({id:"", name:""})
   const [clickedItems, setClickedItems] = useState([])    
   const [designerResponse, setDesignerResponse] = useState({id:"", name: ""})
 
-  const { desId } = useParams()
+  const { desId, season } = useParams()
 
   useEffect (() => {fetch("http://localhost:3000/designers")
     .then((res) => res.json())
-    .then((des) => setDesigners(des))},[]
-  )
+    .then((des) => setDesigners(des))
+    .then(() => fetch("http://localhost:3000/seasons"))
+    .then((r) => r.json())
+    .then((data) => setSeasons(data))
+  },[])
+
+
+
+  console.log("seasons", seasons)
 
 function setClicked (e){
   let id = e.target.id
@@ -28,6 +37,36 @@ function setClicked (e){
 
   setCurrentDesigner({id: id, name: e.target.innerHTML})
   setClickedItems(designerFind.items)
+}
+
+console.log("designers main", designers)
+
+function showSeason (e){
+  
+ 
+
+  const seasonMap = seasons.find((s) => s.id == e.target.id )
+
+  setClickedItems(seasonMap.items)
+  setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
+
+  console.log("seasonMap.items", seasonMap.items)
+  console.log("clciked in season", clickedItems)
+
+  
+
+  // const items = []
+
+  // const itemsMap = designers.map((d) => d.items)
+
+  // const mapItems = designers.map((d) => {
+  // for (const item of d.items){
+  //   if (parseInt(e.target.id) === item.season_id ) {
+  //                     items.push(item)
+  //   }}})
+  
+  // setClickedItems(items)
+
 }
 
 
@@ -80,7 +119,7 @@ function deleteItem(item){
 
     
    <BrowserRouter>
-   <Header currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
+   <Header seasons={seasons} showSeason={showSeason} currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
    <SideNav addDesignerItem={addDesignerItem} designers={designers} setClicked={setClicked} 
       clickedItems={clickedItems} setClickedItems={setClickedItems} 
       designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} 
@@ -90,6 +129,10 @@ function deleteItem(item){
     <Route path={`designers/:desId`} element={
     <ItemList editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
     }/>
+
+    <Route path={`/seasons/:season`} element={
+    <ItemList editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
+    } />
     </Routes>
 
   </BrowserRouter>
