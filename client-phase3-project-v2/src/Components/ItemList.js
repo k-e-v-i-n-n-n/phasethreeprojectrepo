@@ -19,13 +19,8 @@ const ItemList = ({clickedItems, setClickedItems, deleteItem, editedItem}) =>{
 return (
 
 // Map the component Item here, and send the map Item to Item Edit
-
-<div className={"designerItemsDisplay"} >
-
-
-    {clickMap}
-
-
+<div className="itemContainer">
+<div className={"designerItemsDisplay"}> {clickMap} </div>
 </div>
 
 

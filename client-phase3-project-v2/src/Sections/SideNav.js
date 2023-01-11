@@ -2,7 +2,7 @@ import React from "react"
 import Designer from "../Components/Designer"
 import ItemAdd from "../Components/ItemAdd"
 
-const SideNav = ({designers, setClicked, clickedItems, setClickedItems,
+const SideNav = ({addSeasonItem, seasons, isDesigner, setIsDesigner, designers, setDesigners, setClicked, clickedItems, setClickedItems,
     designerResponse, setDesignerResponse, currentDesigner, setCurrentDesigner, addDesignerItem
     }) => {
 
@@ -13,31 +13,16 @@ let designerNames = designers.map((designer) =>
 
     return(
 
-        <div>
-        <div className={'designerColumn'}>
+        <div className="sideNav">
+        <div className="designerColumn">
             <h3 >DESIGNERS</h3>
-        {designerNames}
+            {designerNames}
         </div>
- 
-
-
-      <div>
-
-      <ItemAdd addDesignerItem={addDesignerItem} clickedItems={clickedItems} setClickedItems={setClickedItems} 
+     <ItemAdd designers={designers} setDesigners={setDesigners} addSeasonItem={addSeasonItem} seasons={seasons} isDesigner={isDesigner} setIsDesigner={setIsDesigner} addDesignerItem={addDesignerItem} clickedItems={clickedItems} setClickedItems={setClickedItems} 
       designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} currentDesigner={currentDesigner}
       setCurrentDesigner={setCurrentDesigner} setClicked={setClicked} />
-      </div>
-  
-        
-
-       
-
         </div>
     )
-
-
-
-
 
 }
 

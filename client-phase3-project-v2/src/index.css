@@ -5,7 +5,7 @@
 }
 
 body {
-  /* position: relative; */
+  position: relative;
   margin: 0px auto;
   font-family: "Avenir";
   -webkit-font-smoothing: antialiased;
@@ -25,22 +25,31 @@ body {
 
 .nav {
   position: fixed;
-  margin: auto;
-  text-align: center;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center; */
+  /* position: fixed; */
+  /* margin: auto; */
+  /* text-align: center; */
 
-  margin-bottom: 0px;
+  /* margin-bottom: 0px;
   margin-left: 364.5px;
   margin-right: 364.5px;
-  margin-top: 0px;
+  margin-top: 0px; */
 
 
-  width: 1000px;
+  width: 200px;
+
+  font-size: 24px;
+
+  text-align: center;
+  margin-left: 40px;
   
-  border-color: black;
+  /* border-color: black;
   background-color: rgb(255, 255, 255);
   font-family: "Avenir";
-  font-size: 24px;
-  color: black;
+  
+  color: black; */
 }
 
 .nav-items {
@@ -51,10 +60,22 @@ body {
 }
 
 .seasons {
-
+  /* position: fixed; */
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 150px;
+
+  font-size: 24px;
+}
+
+.currentDesigner {
+
+  text-align: center;
+  font-size: 20px;
+
+  /* height: 10px; */
+  margin: 0px;
 }
 
 .seasonInd:hover{
@@ -64,64 +85,116 @@ body {
 
 /* Designer Left Column Styling */
 
-.designerColumn {
+.sideNav {
 
+  /* position: absolute; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.itemContainer{
+
+  position: absolute;
+
+  top: 200px;
+  left: 400px;
+  /* margin: auto; */
+}
+
+.designerColumn {
+  /* position: fixed; */
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center; 
 
-  position: fixed;
+  /* position: fixed; */
 
-  
-
-  left:50px;
+  /* left:50px;
   top: 200px;
-  width: 200px;
+  width: 200px; */
 
-  border-width: 10px;
-  border-color: black;
+  width: 200px;
+  margin-left: 40px;
+
+  /* border-width: 10px;
+  border-color: black; */
  
 
   
 }
 
+.formDiv {
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  /* position: fixed; */
+  /* right:50px;
+  top: 200px; */
+  /* left: 5000px; */
+  /* left: 500px;
+  /* top: 2px; */ 
+  /* top: 0px;
+  left: 1000px; */
+
+  width: 200px;
+
+  margin-right: 40px;
+}
+
+.designerName{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .designerDelete{
 
-  visibility: hidden;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+}
+
+.designerDelete:hover ~ .designer {
+  color: rgb(143, 143, 143);
+
 }
 
 .designer:hover{
   color: rgb(143, 143, 143); 
 }
 
-.designerName:hover + .designerDelete {
- visibility: visible;
 
-}
+
+
 
 /* Designer Items Display */
 
 .designerItemsDisplay {
 
-    position: absolute;
+    /* position: absolute; */
     /* margin: auto; */
 
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: flex-start;
+    align-content: center;
 
-    margin-bottom: 0px;
+    /* margin-bottom: 0px;
     margin-left: 364.5px;
     margin-right: 364.5px;
-    margin-top: 220px;
+    margin-top: 220px; */
     
     /* left:100px; */
-    /* top: 300px; */
-    width: 1000px;
-    gap: 60px;
+    /* top: 10px; */
+    width: 800px;
+    gap: 40px;
 
     /* height: 3000px; */
 
@@ -135,38 +208,39 @@ body {
   justify-content: flex-start;
   align-items: center; 
 
-  position: relative;
+  /* position: relative; */
 
   
   /* border-width: 5px;
   top: 200px; */
-  width: 250px;
-  height: 250px;
+  width: 100px;
+  /* height: 250px; */
+
+  
+  gap: 7px;
 
   
 
 }
 
+.itemText {
+
+  text-align: center;
+  /* height: 5px; */
+}
+
 .editButtons {
 
-  position: absolute;
-  top: 225px ;
 
-}
+  /* text-align: center;
+  /* position: absolute; */
+  /* top: 225px ; */ 
 
-/* Form Styling */
+}  
 
-.formDiv {
+/* Add Item Form Styling */
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center; 
-  position: fixed;
-  right:50px;
-  top: 200px;
-  width: 300px;
-}
+
 
 .form {
 
@@ -175,7 +249,16 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  right: 50px;
-  top: 300px;
-  width: 300px;
+  /* right: 50px;
+  top: 300px; */
+  width: 200px;
+}
+
+.adding{
+
+  font-style: italic;
+  font-size: 14px;
+  /* padding-bottom: 10px; */
+
+
 }

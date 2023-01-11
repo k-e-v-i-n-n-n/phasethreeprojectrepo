@@ -17,10 +17,10 @@ const style = { textDecoration:'none', color:'black' }
             {name}
             
              </h3>
-            {/* <button className={"designerDelete"}>x</button> */}
+           
 
             </Link>
-
+            <button className="designerDelete">x</button>
             </div>
 
     )

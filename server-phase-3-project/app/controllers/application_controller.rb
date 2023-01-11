@@ -50,6 +50,7 @@ class ApplicationController < Sinatra::Base
     color: params[:color],
     price: params[:price],
     stock_quantity: params[:stock_quantity],
+    season_id: params[:season_id],
     designer_id: params[:designer_id]
 
     )

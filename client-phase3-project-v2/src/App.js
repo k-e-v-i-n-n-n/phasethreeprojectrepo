@@ -12,23 +12,29 @@ function App() {
   const [designers, setDesigners] = useState([])
   const [seasons, setSeasons] = useState([])
   const [currentSeason, setCurrentSeason] = useState([])
+  const [isDesigner, setIsDesigner] = useState(false)
   const [currentDesigner, setCurrentDesigner] = useState({id:"", name:""})
   const [clickedItems, setClickedItems] = useState([])    
   const [designerResponse, setDesignerResponse] = useState({id:"", name: ""})
 
   const { desId, season } = useParams()
 
+  console.log("seasons:", seasons)
+
   useEffect (() => {fetch("http://localhost:3000/designers")
     .then((res) => res.json())
     .then((des) => setDesigners(des))
-    .then(() => fetch("http://localhost:3000/seasons"))
-    .then((r) => r.json())
-    .then((data) => setSeasons(data))
   },[])
 
+  useEffect(() => {
+  fetch("http://localhost:3000/seasons")
+    .then((r) => r.json())
+    .then((data) => setSeasons(data))
+  }, [])
 
 
-  console.log("seasons", seasons)
+
+  console.log("isDesigner", isDesigner)
 
 function setClicked (e){
   let id = e.target.id
@@ -37,18 +43,19 @@ function setClicked (e){
 
   setCurrentDesigner({id: id, name: e.target.innerHTML})
   setClickedItems(designerFind.items)
+  setIsDesigner(true)
 }
 
 console.log("designers main", designers)
 
 function showSeason (e){
-  
- 
 
   const seasonMap = seasons.find((s) => s.id == e.target.id )
 
   setClickedItems(seasonMap.items)
   setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
+  setCurrentSeason({id: seasonMap.id, name: seasonMap.season})
+  setIsDesigner(false)
 
   console.log("seasonMap.items", seasonMap.items)
   console.log("clciked in season", clickedItems)
@@ -71,6 +78,20 @@ function showSeason (e){
 
 
 // FETCH Related State Updates*******************
+
+function addSeasonItem(item){
+
+const season = seasons.find((s)=> s.id == item.season_id)
+
+const itemsUpdate = {...season, items: [...season.items, item]}
+
+const seasonUpdate = seasons.map((s) => s.id == season.id? itemsUpdate : s)
+
+setSeasons(seasonUpdate)
+setClickedItems(itemsUpdate.items)
+
+
+}
 
 function editedItem(item){
 
@@ -119,8 +140,8 @@ function deleteItem(item){
 
     
    <BrowserRouter>
-   <Header seasons={seasons} showSeason={showSeason} currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
-   <SideNav addDesignerItem={addDesignerItem} designers={designers} setClicked={setClicked} 
+   <Header setIsDesigner={setIsDesigner} seasons={seasons} currentSeason={currentSeason} showSeason={showSeason} currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
+   <SideNav addSeasonItem={addSeasonItem} seasons={seasons} isDesigner={isDesigner} setIsDesigner={setIsDesigner} currentSeason={currentSeason} addDesignerItem={addDesignerItem} designers={designers} setDesigners={setDesigners} setClicked={setClicked} 
       clickedItems={clickedItems} setClickedItems={setClickedItems} 
       designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} 
       setCurrentDesigner={setCurrentDesigner} currentDesigner={currentDesigner} /> 

@@ -13,18 +13,18 @@ const {color, size, price, name, stock_quantity } = item
     return (
 
 
-<div className="item">
+<div >
         {editMode ? (<ItemEdit editedItem={editedItem} item={item} setEditMode={setEditMode} clickedItems={clickedItems} selectedItem={selectedItem} deleteItem={deleteItem} setClickedItems={setClickedItems}  /> )
         
         : 
-        (<div>
+        (<div className="item">
 
-        <h5>{name}</h5>
-        <h6>{color}</h6>
-        <h6>{size}</h6>
-        <h6>{price}</h6>
-        <h6> Stock {stock_quantity}</h6>
-        <button className={"editButtons"} onClick={() => setEditMode(true)}>EDIT</button>
+        <h5 className="itemText" >{name}</h5>
+        <h6 className="itemText">{color}</h6>
+        <h6 className="itemText">{size}</h6>
+        <h6 className="itemText">{price}</h6>
+        <h6 className="itemText"> Stock {stock_quantity}</h6>
+        <button className="editButtons" onClick={() => setEditMode(true)}>EDIT</button>
         </div>)
 }
   
