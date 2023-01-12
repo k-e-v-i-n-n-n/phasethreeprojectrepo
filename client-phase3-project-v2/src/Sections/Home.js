@@ -6,7 +6,7 @@ return (
 
 
     <div>
-        <h6>Select a designer</h6>
+       
         
         </div>
 )

@@ -2,11 +2,11 @@ import React from "react"
 import Item from "./Item"
 
 
-const ItemList = ({clickedItems, setClickedItems, deleteItem, editedItem}) =>{
+const ItemList = ({seasons, setSeasons, clickedItems, setClickedItems, deleteItem, editedItem}) =>{
 
     let clickMap = clickedItems?.map((item) => 
 
-        ( <Item key={item.id} 
+        ( <Item seasons={seasons} setSeasons={setSeasons} key={item.id} 
          item={item} 
          stock={item.stock_quantity}
          deleteItem={deleteItem} 

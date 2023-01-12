@@ -79,7 +79,9 @@ class ApplicationController < Sinatra::Base
       color: params[:color],
       price: params[:price],
       stock_quantity: params[:stock_quantity],
-      designer_id: params[:designer_id]
+      designer_id: params[:designer_id],
+      season_id: params[:season_id]
+      
     )
     item.to_json
   end

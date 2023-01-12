@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import ItemEdit from "./ItemEdit";
 
-const Item = ({item, clickedItems, setClickedItems, deleteItem, editedItem}) => {
+const Item = ({seasons, setSeasons, item, clickedItems, setClickedItems, deleteItem, editedItem}) => {
 
 const [editMode, setEditMode] = useState(false)
 const [selectedItem, setSelectedItem] = useState(item)
 
-const {color, size, price, name, stock_quantity } = item
+const {color, size, price, name, stock_quantity, id } = item
 
 
     
@@ -14,7 +14,7 @@ const {color, size, price, name, stock_quantity } = item
 
 
 <div >
-        {editMode ? (<ItemEdit editedItem={editedItem} item={item} setEditMode={setEditMode} clickedItems={clickedItems} selectedItem={selectedItem} deleteItem={deleteItem} setClickedItems={setClickedItems}  /> )
+        {editMode ? (<ItemEdit seasons={seasons} setSeasons={setSeasons} editedItem={editedItem} item={item} setEditMode={setEditMode} clickedItems={clickedItems} selectedItem={selectedItem} deleteItem={deleteItem} setClickedItems={setClickedItems}  /> )
         
         : 
         (<div className="item">

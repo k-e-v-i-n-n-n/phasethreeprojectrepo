@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 const ItemAdd = ({designers, setDesigners, addSeasonItem, seasons, isDesigner, setIsDesigner, clickedItems, setClickedItems, 
     designerResponse, setDesignerResponse,
     setCurrentDesigner, setClicked, currentDesigner, addDesignerItem, currentSeason}) => {
-    const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "", season_id:"" })
+    const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "", season_id: 1 })
     const [designerForm, setDesignerForm] = useState("")
 
     // ADD ITEM Pseudo Code
@@ -19,6 +19,8 @@ function addItem(e) {
 
 
     e.preventDefault();
+
+
     fetch(`http://localhost:3000/items`,{
 
     method: "POST",
@@ -59,7 +61,7 @@ function addItem(e) {
 function popForm(e){
     formAlert();
      setItemForm({...itemForm, [e.target.name]: e.target.value})
-    //  if(e.target.name == "season_id"){seasonId(e)}
+
 }
 
 function clearForm() {
@@ -68,38 +70,11 @@ setItemForm({
     name: "", color: "", size: "", price: "",stock_quantity: "", designer_id: "", season_id:"" })
 }
 
-// function seasonId (e){
-
-//     if (e.target.value.toLowerCase() == "spring"){
-//         setItemForm({...itemForm, season_id: 1})
-//     }
-
-//     else if (e.target.value.toLowerCase() == "summer"){
-//         setItemForm({...itemForm, season_id: 2})
-//     }
-
-//     else if (e.target.value.toLowerCase() == "fall"){
-//         setItemForm({...itemForm, season_id: 3})
-//     }
-
-//     else if (e.target.value.toLowerCase() == "winter"){
-//         setItemForm({...itemForm, season_id: 4})
-//     }
-// }
-
 function formAlert(){
-
-    console.log("alert")
-
     if(isDesigner == false){
 
         alert("Please select a designer, before adding an item")
-    }
-}
-
-    const visibileOrNot = isDesigner? "visible" : "hidden" 
-
-    console.log("visibile", visibileOrNot)
+    }}
 
     return(
         <div className={"formDiv"}>
@@ -110,13 +85,10 @@ function formAlert(){
         <input name={"name"} value={itemForm.name} onChange={popForm}></input>
         <label>Season</label>
         {/* <input name={"season_id"} value={itemForm.season_id} onChange={popForm}></input> */}
-        <select name="season_id" onChange={popForm}>
+        <select name="season_id" value={itemForm.season_id} onChange={popForm}>
 
             {seasons.map((s) => {
-                    return <option  value={s.id} >{s.season}</option>
-                    
-
-            })}
+                return <option  value={s.id} >{s.season}</option>})}
         </select>
 
         <label>Color</label>

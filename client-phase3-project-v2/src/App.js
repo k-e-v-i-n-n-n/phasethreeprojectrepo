@@ -19,7 +19,6 @@ function App() {
 
   const { desId, season } = useParams()
 
-  console.log("seasons:", seasons)
 
   useEffect (() => {fetch("http://localhost:3000/designers")
     .then((res) => res.json())
@@ -34,8 +33,6 @@ function App() {
 
 
 
-  console.log("isDesigner", isDesigner)
-
 function setClicked (e){
   let id = e.target.id
   
@@ -46,7 +43,6 @@ function setClicked (e){
   setIsDesigner(true)
 }
 
-console.log("designers main", designers)
 
 function showSeason (e){
 
@@ -56,11 +52,6 @@ function showSeason (e){
   setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
   setCurrentSeason({id: seasonMap.id, name: seasonMap.season})
   setIsDesigner(false)
-
-  console.log("seasonMap.items", seasonMap.items)
-  console.log("clciked in season", clickedItems)
-
-  
 
   // const items = []
 
@@ -81,16 +72,14 @@ function showSeason (e){
 
 function addSeasonItem(item){
 
-const season = seasons.find((s)=> s.id == item.season_id)
+    const season = seasons.find((s)=> s.id == item.season_id)
+  // debugger
+    const itemsUpdate = {...season, items: [...season.items, item]}
 
-const itemsUpdate = {...season, items: [...season.items, item]}
+    const seasonUpdate = seasons.map((s) => s.id == season.id? itemsUpdate : s)
 
-const seasonUpdate = seasons.map((s) => s.id == season.id? itemsUpdate : s)
-
-setSeasons(seasonUpdate)
-setClickedItems(itemsUpdate.items)
-
-
+  setSeasons(seasonUpdate)
+  setClickedItems(itemsUpdate.items)
 }
 
 function editedItem(item){
@@ -148,11 +137,11 @@ function deleteItem(item){
     <Routes>
       <Route path='/' element={<Home/>} />
     <Route path={`designers/:desId`} element={
-    <ItemList editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
+    <ItemList editedItem={editedItem} clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
     }/>
 
     <Route path={`/seasons/:season`} element={
-    <ItemList editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
+    <ItemList seasons={seasons} setSeasons={setSeasons} editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
     } />
     </Routes>
 

@@ -160,10 +160,10 @@ body {
   text-align: center;
 }
 
-.designerDelete:hover ~ .designer {
+/* .designerDelete:hover ~ .designer {
   color: rgb(143, 143, 143);
 
-}
+} */
 
 .designer:hover{
   color: rgb(143, 143, 143); 

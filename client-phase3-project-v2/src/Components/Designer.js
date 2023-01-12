@@ -20,7 +20,7 @@ const style = { textDecoration:'none', color:'black' }
            
 
             </Link>
-            <button className="designerDelete">x</button>
+            {/* <button className="designerDelete">x</button> */}
             </div>
 
     )
