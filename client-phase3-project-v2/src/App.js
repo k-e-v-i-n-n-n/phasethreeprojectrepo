@@ -74,6 +74,7 @@ function addSeasonItem(item){
 
     const season = seasons.find((s)=> s.id == item.season_id)
   // debugger
+
     const itemsUpdate = {...season, items: [...season.items, item]}
 
     const seasonUpdate = seasons.map((s) => s.id == season.id? itemsUpdate : s)
@@ -82,13 +83,13 @@ function addSeasonItem(item){
   setClickedItems(itemsUpdate.items)
 }
 
-function editedItem(item){
+function editedItem(update){
 
-  const designer = designers.find((d) => d.id == item.designer_id)
+  const designer = designers.find((d) => d.id == update.designer_id)
 
-  const filterItems = designer.items.filter((i) => i.id !== item.id)
+  const filterItems = designer.items.filter((i) => i.id !== update.id)
 
-  const itemsUpdate = {...designer, items: [...filterItems, item] }
+  const itemsUpdate = {...designer, items: [...filterItems, update] }
 
   const itemMap = designers.map((i) => i.id == designer.id ? itemsUpdate : i)
 
@@ -121,8 +122,9 @@ function deleteItem(item){
   setDesigners(updateDesigners)
 
   setClickedItems(updatedItems)
-
 }
+
+
 
 
   return (
@@ -137,7 +139,7 @@ function deleteItem(item){
     <Routes>
       <Route path='/' element={<Home/>} />
     <Route path={`designers/:desId`} element={
-    <ItemList editedItem={editedItem} clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
+    <ItemList seasons={seasons} setSeasons={setSeasons} editedItem={editedItem} clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
     }/>
 
     <Route path={`/seasons/:season`} element={

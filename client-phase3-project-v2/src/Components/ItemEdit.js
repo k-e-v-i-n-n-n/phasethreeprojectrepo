@@ -36,7 +36,16 @@ const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, set
   
     }
 
-    // console.log("fetch item", editItem)
+    function fetchDelete(){
+      fetch(`http://localhost:3000/items/${editItem.id}`,{
+      method: "DELETE",})
+      .then((r) => r.json())
+      .then((data) => {console.log("fetch delete", data); deleteItem(data);
+      deleteSeasonItem(data)})
+    }
+
+// FETCH UPDATE Functions
+   
 
     function updateSeasonItem(updatedItem){
 
@@ -47,11 +56,10 @@ const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, set
      const newItemAdd = {...season, items: [...seasonItems, updatedItem]}
 
      const seasonsMap = seasons.map((s) => s.id === season.id? newItemAdd : s)
+console.log("season!!!", season)
+     
 
      setSeasons(seasonsMap)
-    //  setClickedItems(newItemAdd.items)
-
-      console.log("test!!", season)
     }
 
     function updateInput(e){ 
@@ -64,31 +72,44 @@ const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, set
 
    let itemFilter = clickedItems.filter((filt) => filt.id !== updatedItem.id)
 
+   
+
    setClickedItems([...itemFilter, updatedItem])
+   console.log("item filll", clickedItems)
 
     }
 
-    function fetchDelete(){
-      fetch(`http://localhost:3000/items/${editItem.id}`,{
-      method: "DELETE",})
-      .then((r) => r.json())
-      .then((data) => deleteItem(data))
+
+    function deleteSeasonItem(toDelete){
+
+      const season = seasons.find((s) => s.id === toDelete.season_id)
+    
+      const itemFilter = season.items.filter((i) => i.id !== toDelete.id )
+    
+      const seasonUpdate = {...season, items: [...itemFilter]}
+
+      const seasonMap = seasons.map((s) => s.id == season.id? seasonUpdate : s )
+    
+      setSeasons(seasonMap)
+
+     
+    
     }
 
     return(
 
-<div className="item">
+<div className="itemEdit">
         
-            <form className="item"  >
-            <input name={"name"} value={editItem.name} onChange={updateInput}></input>  
-            <input name={"color"} value={editItem.color} onChange={updateInput}></input>
-            <input name={"size"} value={editItem.size} onChange={updateInput}></input>
-            <input name={"price"} value={editItem.price} onChange={updateInput}></input>
-            <input name={"stock_quantity"} value={editItem.stock_quantity} onChange={updateInput}></input>
-            <div className={"editButtons"} >
-            <button type="button" onClick={() => {saveEdit(); setEditMode(false);}}>SAVE</button>
-            <button onClick={() => setEditMode(false)}>CANCEL</button>
-            <button onClick={() => {setEditMode(false); fetchDelete();}}>DELETE</button>
+            <form className="itemEdit"  >
+            <input name="name" value={editItem.name} onChange={updateInput}></input>  
+            <input name="color" value={editItem.color} onChange={updateInput}></input>
+            <input name="size" value={editItem.size} onChange={updateInput}></input>
+            <input name="price" value={editItem.price} onChange={updateInput}></input>
+            <input name="stock_quantity" value={editItem.stock_quantity} onChange={updateInput}></input>
+            <div >
+            <button className="editMode" type="button" onClick={() => {saveEdit(); setEditMode(false);}}>SAVE</button>
+            <button className="editMode" type="button" onClick={() => setEditMode(false)}>CANCEL</button>
+            <button className="editMode" type="button" onClick={() => {setEditMode(false); fetchDelete();}}>DELETE</button>
             </div>
             
             </form>

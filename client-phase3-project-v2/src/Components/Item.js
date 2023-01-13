@@ -19,12 +19,12 @@ const {color, size, price, name, stock_quantity, id } = item
         : 
         (<div className="item">
 
-        <h5 className="itemText" >{name}</h5>
+        <h5 className="itemText" style={{fontWeight: 500}} >{name}</h5>
         <h6 className="itemText">{color}</h6>
         <h6 className="itemText">{size}</h6>
         <h6 className="itemText">{price}</h6>
         <h6 className="itemText"> Stock {stock_quantity}</h6>
-        <button className="editButtons" onClick={() => setEditMode(true)}>EDIT</button>
+        <button className="editButton" onClick={() => setEditMode(true)}>EDIT</button>
         </div>)
 }
   

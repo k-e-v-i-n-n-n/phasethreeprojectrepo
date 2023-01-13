@@ -20,6 +20,13 @@ function addItem(e) {
 
     e.preventDefault();
 
+    if (itemForm.name.length == 0){
+
+        alert("Please enter item name.")
+    }
+
+    else {
+
 
     fetch(`http://localhost:3000/items`,{
 
@@ -41,9 +48,16 @@ function addItem(e) {
         addSeasonItem(data)
         setClickedItems([...clickedItems, data])
         clearForm()
-    })}
+    })
+}
+}
 
     function addDesigner(){
+
+        if (designerForm.length === 0){
+            alert("Please add designer name.")
+        }
+        else {
 
         fetch(`http://localhost:3000/designers`,
         
@@ -56,6 +70,8 @@ function addItem(e) {
            }),})
         .then((r) => r.json())
         .then((data) => setDesigners([...designers, data]) )
+
+    }
     }
 
 function popForm(e){
@@ -77,12 +93,12 @@ function formAlert(){
     }}
 
     return(
-        <div className={"formDiv"}>
-            <h3>ADD ITEM</h3>
+        <div className="formDiv">
+            <h3 className="addTitle">ADD ITEM</h3>
         <p className="adding" style={{display: isDesigner? 'initial' : 'none'}}  >adding to {currentDesigner.name}</p>
-       <form className={"form"} onSubmit={addItem}>
+       <form className="form" onSubmit={addItem}>
        <label>Item Name</label>
-        <input name={"name"} value={itemForm.name} onChange={popForm}></input>
+        <input name="name" value={itemForm.name} onChange={popForm}></input>
         <label>Season</label>
         {/* <input name={"season_id"} value={itemForm.season_id} onChange={popForm}></input> */}
         <select name="season_id" value={itemForm.season_id} onChange={popForm}>
@@ -92,16 +108,16 @@ function formAlert(){
         </select>
 
         <label>Color</label>
-        <input name={"color"} value={itemForm.color} onChange={popForm} ></input>
+        <input name="color" value={itemForm.color} onChange={popForm} ></input>
     
         <label>Size</label>
-        <input name={"size"} value={itemForm.size} onChange={popForm}></input>
+        <input name="size" value={itemForm.size} onChange={popForm}></input>
 
         <label>Price</label>
-        <input name={"price"} value={itemForm.price} onChange={popForm}></input>
+        <input name="price" value={itemForm.price} onChange={popForm}></input>
 
         <label>Stock</label>
-        <input name={"stock_quantity"} value={itemForm.stock_quantity} onChange={popForm}></input>
+        <input name="stock_quantity" value={itemForm.stock_quantity} onChange={popForm}></input>
         
         <button type="submit" >SUBMIT</button>
        <button onClick={clearForm} >CANCEL</button>
@@ -109,12 +125,12 @@ function formAlert(){
 
       {/* ADD DESIGNER */}
 
-       <h3 style={{paddingTop: "30px"}} >ADD DESIGNER</h3>
-       <form className={"form"} onSubmit={addDesigner}>
+       <h3 style={{paddingTop: "30px"}} className="addTitle" >ADD DESIGNER</h3>
+       <form className="form">
        <label>Designer Name</label>
-        <input name={"name"} value={designerForm} onChange={(e) => setDesignerForm(e.target.value)}></input>
-        <button type="submit" >SUBMIT</button>
-       <button onClick={clearForm} >CANCEL</button>
+        <input name="name" value={designerForm} onChange={(e) => setDesignerForm(e.target.value)}></input>
+        <button type="button" onClick={addDesigner} >SUBMIT</button>
+       <button type="button" onClick={clearForm} >CANCEL</button>
        </form>
 
 
