@@ -40,7 +40,7 @@ class ApplicationController < Sinatra::Base
   
   post "/designers" do
     designer = Designer.find_or_create_by(name: params[:name])
-    designer.to_json
+    designer.to_json(include: :items)
   end
 
   post "/items" do

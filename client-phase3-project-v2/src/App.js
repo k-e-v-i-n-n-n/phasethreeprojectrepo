@@ -105,6 +105,8 @@ function addDesignerItem(item){
 
   const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
 
+  console.log("updated des:", updatedDesigner)
+
   setDesigners(updateDesigners)
 
 }

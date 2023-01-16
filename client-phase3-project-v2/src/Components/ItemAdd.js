@@ -44,10 +44,11 @@ function addItem(e) {
         season_id: itemForm.season_id}),})
     .then((r)=> r.json())
     .then((data)=> {
+        clearForm()
         addDesignerItem(data)
         addSeasonItem(data)
         setClickedItems([...clickedItems, data])
-        clearForm()
+        
     })
 }
 }
@@ -55,7 +56,7 @@ function addItem(e) {
     function addDesigner(){
 
         if (designerForm.length === 0){
-            alert("Please add designer name.")
+            alert("Please enter a designer name.")
         }
         else {
 
@@ -69,7 +70,10 @@ function addItem(e) {
             name: designerForm,
            }),})
         .then((r) => r.json())
-        .then((data) => setDesigners([...designers, data]) )
+        .then((data) => {clearForm() 
+
+            console.log("add designer res", data)
+            setDesigners([...designers, data]) })
 
     }
     }
@@ -83,13 +87,13 @@ function popForm(e){
 function clearForm() {
 setDesignerForm("")
 setItemForm({
-    name: "", color: "", size: "", price: "",stock_quantity: "", designer_id: "", season_id:"" })
+    name: "", color: "", size: "", price: "",stock_quantity: "", designer_id: "", season_id: 1 })
 }
 
 function formAlert(){
     if(isDesigner == false){
 
-        alert("Please select a designer, before adding an item")
+        alert("Please select a designer from the left, before adding an item")
     }}
 
     return(
