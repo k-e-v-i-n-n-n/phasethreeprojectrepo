@@ -6,7 +6,6 @@ import Header from './Sections/Header';
 import ItemList from './Components/ItemList';
 import Home from './Sections/Home';
 
-
 function App() {
 
   const [designers, setDesigners] = useState([])
@@ -19,142 +18,123 @@ function App() {
 
   const { desId, season } = useParams()
 
+useEffect (() => {
+      fetch("http://localhost:3000/designers")
+      .then((res) => res.json())
+      .then((des) => setDesigners(des))
+    },[])
 
-  useEffect (() => {fetch("http://localhost:3000/designers")
-    .then((res) => res.json())
-    .then((des) => setDesigners(des))
-  },[])
-
-  useEffect(() => {
-  fetch("http://localhost:3000/seasons")
-    .then((r) => r.json())
-    .then((data) => setSeasons(data))
-  }, [])
-
-
+useEffect(() => {
+      fetch("http://localhost:3000/seasons")
+        .then((r) => r.json())
+        .then((data) => setSeasons(data))
+      }, [])
 
 function setClicked (e){
-  let id = e.target.id
-  
-  const designerFind = designers.find(des => des.id == id)
+    
+    let id = e.target.id
+    const designerFind = designers.find(des => des.id == id)
 
-  setCurrentDesigner({id: id, name: e.target.innerHTML})
-  setClickedItems(designerFind.items)
-  setIsDesigner(true)
+      setCurrentDesigner({id: id, name: e.target.innerHTML})
+      setClickedItems(designerFind.items)
+      setIsDesigner(true)
 }
-
 
 function showSeason (e){
 
   const seasonMap = seasons.find((s) => s.id == e.target.id )
 
-  setClickedItems(seasonMap.items)
-  setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
-  setCurrentSeason({id: seasonMap.id, name: seasonMap.season})
-  setIsDesigner(false)
-
-  // const items = []
-
-  // const itemsMap = designers.map((d) => d.items)
-
-  // const mapItems = designers.map((d) => {
-  // for (const item of d.items){
-  //   if (parseInt(e.target.id) === item.season_id ) {
-  //                     items.push(item)
-  //   }}})
-  
-  // setClickedItems(items)
-
+    setClickedItems(seasonMap.items)
+    setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
+    setCurrentSeason({id: seasonMap.id, name: seasonMap.season})
+    setIsDesigner(false)
 }
-
 
 // FETCH Related State Updates*******************
 
 function addSeasonItem(item){
 
     const season = seasons.find((s)=> s.id == item.season_id)
-  // debugger
 
     const itemsUpdate = {...season, items: [...season.items, item]}
 
     const seasonUpdate = seasons.map((s) => s.id == season.id? itemsUpdate : s)
 
-  setSeasons(seasonUpdate)
-  setClickedItems(itemsUpdate.items)
+    setSeasons(seasonUpdate)
+    setClickedItems(itemsUpdate.items)
 }
 
 function editedItem(update){
 
-  const designer = designers.find((d) => d.id == update.designer_id)
+    const designer = designers.find((d) => d.id == update.designer_id)
 
-  const filterItems = designer.items.filter((i) => i.id !== update.id)
+    const filterItems = designer.items.filter((i) => i.id !== update.id)
 
-  const itemsUpdate = {...designer, items: [...filterItems, update] }
+    const itemsUpdate = {...designer, items: [...filterItems, update] }
 
-  const itemMap = designers.map((i) => i.id == designer.id ? itemsUpdate : i)
+    const itemMap = designers.map((i) => i.id == designer.id ? itemsUpdate : i)
 
-  setDesigners(itemMap)
+    setDesigners(itemMap)
 
 }
 
 function addDesignerItem(item){
 
-  const designer = designers.find((d) => d.id == item.designer_id) 
+    const designer = designers.find((d) => d.id == item.designer_id) 
 
-  const updatedDesigner = {...designer, items: [...designer.items, item] }
+    const updatedDesigner = {...designer, items: [...designer.items, item] }
 
-  const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
+    const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
 
-  console.log("updated des:", updatedDesigner)
-
-  setDesigners(updateDesigners)
+    setDesigners(updateDesigners)
 
 }
 
 function deleteItem(item){
 
-  const designer = designers.find((d) => d.id == item.designer_id) 
+    const designer = designers.find((d) => d.id == item.designer_id) 
 
-  const updatedItems = designer.items.filter((i) => i.id !== item.id )
+    const updatedItems = designer.items.filter((i) => i.id !== item.id )
 
-  const updatedDesigner = {...designer, items: updatedItems }
+    const updatedDesigner = {...designer, items: updatedItems }
 
-  const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
+    const updateDesigners = designers.map((d) => designer.id == d.id ? updatedDesigner : d )
 
-  setDesigners(updateDesigners)
+    setDesigners(updateDesigners)
 
-  setClickedItems(updatedItems)
+    if(isDesigner == true){setClickedItems(updatedItems)}
+
 }
-
-
-
 
   return (
 
-    
-   <BrowserRouter>
-   <Header setIsDesigner={setIsDesigner} seasons={seasons} currentSeason={currentSeason} showSeason={showSeason} currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
-   <SideNav addSeasonItem={addSeasonItem} seasons={seasons} isDesigner={isDesigner} setIsDesigner={setIsDesigner} currentSeason={currentSeason} addDesignerItem={addDesignerItem} designers={designers} setDesigners={setDesigners} setClicked={setClicked} 
-      clickedItems={clickedItems} setClickedItems={setClickedItems} 
-      designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} 
-      setCurrentDesigner={setCurrentDesigner} currentDesigner={currentDesigner} /> 
+  <BrowserRouter>
+        <Header setIsDesigner={setIsDesigner} seasons={seasons} 
+                currentSeason={currentSeason} showSeason={showSeason} 
+                currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
+        <SideNav addSeasonItem={addSeasonItem} seasons={seasons} 
+                isDesigner={isDesigner} setIsDesigner={setIsDesigner} 
+                currentSeason={currentSeason} addDesignerItem={addDesignerItem} 
+                designers={designers} setDesigners={setDesigners} setClicked={setClicked} 
+                clickedItems={clickedItems} setClickedItems={setClickedItems} 
+                designerResponse={designerResponse} setDesignerResponse={setDesignerResponse} 
+                setCurrentDesigner={setCurrentDesigner} currentDesigner={currentDesigner} /> 
     <Routes>
-      <Route path='/' element={<Home/>} />
-    <Route path={`designers/:desId`} element={
-    <ItemList seasons={seasons} setSeasons={setSeasons} editedItem={editedItem} clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
-    }/>
-
-    <Route path={`/seasons/:season`} element={
-    <ItemList seasons={seasons} setSeasons={setSeasons} editedItem={editedItem}  clickedItems={clickedItems} setClickedItems={setClickedItems} currentDesigner={currentDesigner} deleteItem={deleteItem} />
-    } />
+        <Route path='/' element={<Home/>} />
+        <Route path={`designers/:desId`} element={
+        <ItemList seasons={seasons} setSeasons={setSeasons} 
+                  editedItem={editedItem} clickedItems={clickedItems} 
+                  setClickedItems={setClickedItems} currentDesigner={currentDesigner} 
+                  deleteItem={deleteItem} isDesigner={isDesigner} />}/>
+        <Route path={`/seasons/:season`} element={
+        <ItemList seasons={seasons} setSeasons={setSeasons} 
+                  editedItem={editedItem}  clickedItems={clickedItems} 
+                  setClickedItems={setClickedItems} currentDesigner={currentDesigner} 
+                  deleteItem={deleteItem} isDesigner={isDesigner} />}/>
     </Routes>
-
   </BrowserRouter>
     
-  
-    
-
-  );
+  )
 }
 
 export default App;

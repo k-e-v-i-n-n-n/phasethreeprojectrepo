@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 
 
-const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, setEditMode, deleteItem, editedItem}) => {
-    const [editItem, setEditItem] = useState(item)
+const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, setEditMode, deleteItem, editedItem, isDesigner}) => {
+    
+      const [editItem, setEditItem] = useState(item)
 
-    function saveEdit(){
+function saveEdit(e){
 
-  //  e.preventDefault()
+      e.preventDefault()
 
-        fetch(`http://localhost:3000/items/${editItem.id}`, {
+      fetch(`http://localhost:3000/items/${editItem.id}`, {
 
         method: "PATCH",
         headers: {
@@ -21,33 +22,27 @@ const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, set
             price: editItem.price,
             stock_quantity: editItem.stock_quantity,
             season_id: editItem.season_id,
-            designer_id: editItem.designer_id
-        
-          }),
-
-        })
+            designer_id: editItem.designer_id}),})
         .then((r) => r.json())
-        .then((update) => { console.log("fetch update", update)
+        .then((update) => {
           editedItem(update)
           updatePatch(update)
           updateSeasonItem(update)})
           .catch((err) => console.log("fetch error:", err))
+}
 
-  
-    }
+function fetchDelete(){
 
-    function fetchDelete(){
-      fetch(`http://localhost:3000/items/${editItem.id}`,{
-      method: "DELETE",})
-      .then((r) => r.json())
-      .then((data) => {console.log("fetch delete", data); deleteItem(data);
-      deleteSeasonItem(data)})
-    }
+        fetch(`http://localhost:3000/items/${editItem.id}`,{
+          method: "DELETE",})
+          .then((r) => r.json())
+          .then((data) => {deleteItem(data);
+          deleteSeasonItem(data)})
+}
 
-// FETCH UPDATE Functions
+// FETCH UPDATE Functions***************************
    
-
-    function updateSeasonItem(updatedItem){
+function updateSeasonItem(updatedItem){
 
      const season = seasons.find((s) => s.id == updatedItem.season_id)
 
@@ -56,33 +51,25 @@ const ItemEdit = ({seasons, setSeasons, clickedItems, setClickedItems, item, set
      const newItemAdd = {...season, items: [...seasonItems, updatedItem]}
 
      const seasonsMap = seasons.map((s) => s.id === season.id? newItemAdd : s)
-console.log("season!!!", season)
-     
 
-     setSeasons(seasonsMap)
-    }
+     setSeasons(seasonsMap)}
 
-    function updateInput(e){ 
+
+function updateInput(e){ 
         
-        setEditItem({...editItem, [e.target.name]: e.target.value})
-
-    }
-
-    function updatePatch(updatedItem){
-
-   let itemFilter = clickedItems.filter((filt) => filt.id !== updatedItem.id)
-
-   
-
-   setClickedItems([...itemFilter, updatedItem])
-   console.log("item filll", clickedItems)
-
-    }
+        setEditItem({...editItem, [e.target.name]: e.target.value})}
 
 
-    function deleteSeasonItem(toDelete){
+function updatePatch(updatedItem){
 
-      const season = seasons.find((s) => s.id === toDelete.season_id)
+      let itemFilter = clickedItems.filter((filt) => filt.id !== updatedItem.id)
+
+      setClickedItems([...itemFilter, updatedItem])}
+
+
+function deleteSeasonItem(toDelete){
+
+      const season = seasons.find((s) => s.id == toDelete.season_id)
     
       const itemFilter = season.items.filter((i) => i.id !== toDelete.id )
     
@@ -92,35 +79,29 @@ console.log("season!!!", season)
     
       setSeasons(seasonMap)
 
-     
+      if(isDesigner == false){setClickedItems([...itemFilter])}
     
     }
 
-    return(
 
-<div className="itemEdit">
-        
-            <form className="itemEdit"  >
-            <input name="name" value={editItem.name} onChange={updateInput}></input>  
-            <input name="color" value={editItem.color} onChange={updateInput}></input>
-            <input name="size" value={editItem.size} onChange={updateInput}></input>
-            <input name="price" value={editItem.price} onChange={updateInput}></input>
-            <input name="stock_quantity" value={editItem.stock_quantity} onChange={updateInput}></input>
-            <div >
-            <button className="editMode" type="button" onClick={() => {saveEdit(); setEditMode(false);}}>SAVE</button>
-            <button className="editMode" type="button" onClick={() => setEditMode(false)}>CANCEL</button>
-            <button className="editMode" type="button" onClick={() => {setEditMode(false); fetchDelete();}}>DELETE</button>
-            </div>
-            
-            </form>
-       
+return(
 
+  <div className="itemEdit">
           
-    </div>
-    )
-
-
-
-}
+          <form className="itemEdit"  >
+              <input name="name" value={editItem.name} onChange={updateInput}></input>  
+              <input name="color" value={editItem.color} onChange={updateInput}></input>
+              <input name="size" value={editItem.size} onChange={updateInput}></input>
+              <input name="price" value={editItem.price} onChange={updateInput}></input>
+              <input name="stock_quantity" value={editItem.stock_quantity} onChange={updateInput}></input>
+              <div >
+                <button className="editMode" type="button" onClick={(e) => {saveEdit(e); setEditMode(false);}}>SAVE</button>
+                <button className="editMode" type="button" onClick={() => setEditMode(false)}>CANCEL</button>
+                <button className="editMode" type="button" onClick={() => {fetchDelete(); setEditMode(false)}}>DELETE</button>
+              </div>
+              
+          </form>
+  </div> 
+  )}
 
 export default ItemEdit

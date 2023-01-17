@@ -1,31 +1,25 @@
-import React,{useEffect, useState} from "react";
+import React from "react";
 import {Link} from "react-router-dom"
 
+const Designer = ({designerEdit, setDesignerEdit, id, name, setClicked, designers, setDesigners}) => {
 
-const Designer = ({designerEdit, setDesignerEdit, id, name, setClicked, currentDesigner, designers, setDesigners}) => {
-
-const style = { textDecoration:'none', color:'black' }
-
-const visible = designerEdit? "initial" : "none"
+    const style = { textDecoration:'none', color:'black' }
+    const visible = designerEdit? "initial" : "none"
 
 function deleteDesigner(e){
 
     setDesignerEdit(false)
-    console.log("designer ID", e.target.id)
-
     fetch(`http://localhost:3000/designers/${e.target.id}`,{
-    method: "DELETE"
-    })
-    .then((r) => r.json())
-    .then((des) => deleteFromDesigners(des))
+        method: "DELETE"
+        })
+        .then((r) => r.json())
+        .then((des) => deleteFromDesigners(des))
 
 }
 
 function deleteFromDesigners(des){
 
     const designerFilter = designers.filter((d) => d.id !== des.id)
-
-
 
     setDesigners(designerFilter)
 }
@@ -36,7 +30,7 @@ function deleteFromDesigners(des){
             <Link to={`designers/${id}`} style={style} >
                 <h3 id={id} name={name} onClick={setClicked} className="designer">{name}</h3>
             </Link>
-                <button id={id} style={{display: visible}} onClick={deleteDesigner}  className="designerDelete">x</button>
+                <button id={id} style={{display: visible}} onClick={deleteDesigner} className="designerDelete">x</button>
         </div>
     )
 }
