@@ -93,7 +93,9 @@ class ApplicationController < Sinatra::Base
 
   delete "/designers/:id" do
     designer = Designer.find(params[:id])
+    items = designer.items.destroy_all
     designer.destroy
+    items.to_json
     designer.to_json
   end
 

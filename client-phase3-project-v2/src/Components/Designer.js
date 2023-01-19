@@ -1,9 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom"
 
-const Designer = ({designerEdit, setDesignerEdit, id, name, setClicked, designers, setDesigners}) => {
+const Designer = ({isDesigner, designerEdit, setDesignerEdit, id, name, setClicked, designers, setDesigners, setClickedItems, setCurrentDesigner, deleteDesignerAndSeasonItems}) => {
 
-    const style = { textDecoration:'none', color:'black' }
+    const style = {textDecoration:'none', color:'black'}
     const visible = designerEdit? "initial" : "none"
 
 function deleteDesigner(e){
@@ -13,7 +13,12 @@ function deleteDesigner(e){
         method: "DELETE"
         })
         .then((r) => r.json())
-        .then((des) => deleteFromDesigners(des))
+        .then((des) => {deleteFromDesigners(des)
+        deleteDesignerAndSeasonItems(des)
+ 
+    }
+
+        )
 
 }
 
@@ -22,7 +27,11 @@ function deleteFromDesigners(des){
     const designerFilter = designers.filter((d) => d.id !== des.id)
 
     setDesigners(designerFilter)
+
+    if (isDesigner === true) {setCurrentDesigner({id:"", name:""})}
+
 }
+
 
     return (
 

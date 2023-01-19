@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-const ItemAdd = ({designers, setDesigners, addSeasonItem, seasons, isDesigner, clickedItems, setClickedItems, 
+const ItemAdd = ({setNewClicked, designers, setDesigners, addSeasonItem, seasons, isDesigner, clickedItems, setClickedItems, 
     currentDesigner, addDesignerItem}) => {
     const [itemForm, setItemForm] = useState({name: "", color: "", size: "", price: "", stock_quantity: "", designer_id: "", season_id: 1 })
     const [designerForm, setDesignerForm] = useState("")
@@ -51,9 +51,8 @@ function addDesigner(e){
                 }),})
                 .then((r) => r.json())
                 .then((data) => {clearForm() 
-
-                    console.log("add designer res", data)
-                    setDesigners([...designers, data]) })
+                    setDesigners([...designers, data])
+                    setNewClicked(data) })
 }}
 
 function popForm(e){

@@ -18,6 +18,8 @@ function App() {
 
   const { desId, season } = useParams()
 
+  console.log("seasons on load", seasons, clickedItems)
+
 useEffect (() => {
       fetch("http://localhost:3000/designers")
       .then((res) => res.json())
@@ -40,14 +42,28 @@ function setClicked (e){
       setIsDesigner(true)
 }
 
+function setNewClicked (d){
+    
+  let id = d.id
+  const designerFind = designers.find(des => des.id == id)
+
+    setCurrentDesigner({id: d.id, name: d.name})
+    setClickedItems([])
+    setIsDesigner(true)
+}
+
 function showSeason (e){
 
   const seasonMap = seasons.find((s) => s.id == e.target.id )
+
+
 
     setClickedItems(seasonMap.items)
     setCurrentDesigner({id: seasonMap.id, name: seasonMap.season})
     setCurrentSeason({id: seasonMap.id, name: seasonMap.season})
     setIsDesigner(false)
+
+    console.log("seasonMap in show s + clicked", seasonMap, clickedItems)
 }
 
 // FETCH Related State Updates*******************
@@ -106,13 +122,25 @@ function deleteItem(item){
 
 }
 
+
+function deleteDesignerAndSeasonItems(toDelete){
+
+    const itemsMap = seasons.map((s) => ({...s, items: s.items.filter((i) => i.designer_id !== toDelete.id)}))
+
+    const clickedFilter = clickedItems.filter((i) => i.designer_id !== toDelete.id)
+    
+    setSeasons(itemsMap)
+    setClickedItems(clickedFilter)
+
+}
+
   return (
 
   <BrowserRouter>
         <Header setIsDesigner={setIsDesigner} seasons={seasons} 
                 currentSeason={currentSeason} showSeason={showSeason} 
                 currentDesigner={currentDesigner} setCurrentDesigner={setCurrentDesigner} />
-        <SideNav addSeasonItem={addSeasonItem} seasons={seasons} 
+        <SideNav setNewClicked={setNewClicked} deleteDesignerAndSeasonItems={deleteDesignerAndSeasonItems} addSeasonItem={addSeasonItem} seasons={seasons} 
                 isDesigner={isDesigner} setIsDesigner={setIsDesigner} 
                 currentSeason={currentSeason} addDesignerItem={addDesignerItem} 
                 designers={designers} setDesigners={setDesigners} setClicked={setClicked} 
